@@ -1,140 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Dream Journal</title>
-  <style>
-    body {
-      background: #f5f0ec;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #7c4dff;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-    }
-    .container {
-      padding: 1.5rem;
-      max-width: 800px;
-      margin: auto;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 0.8rem;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-    button {
-      background: #7c4dff;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .entry {
-      background: #fff;
-      border-left: 4px solid #7c4dff;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .entry h3 {
-      margin: 0 0 0.5rem;
-    }
-    label {
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamLok 🌌</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>🌙 My Dream Journal</header>
-  <div class="container">
-    <form id="dreamForm">
-      <label for="date">📅 Date</label>
-      <input type="date" id="date" required />
+  <div class="container fade-in">
+    <h1>🌌 Welcome to <span>DreamLok</span></h1>
+    <p class="subtitle">Your private journal for dreamscapes, visions, and subconscious explorations</p>
 
-      <label for="title">📝 Title</label>
-      <input type="text" id="title" placeholder="e.g., Woke up in a dream inside a dream" required />
+    <button onclick="window.location.href='journal.html'" class="cta">Log My Dreams</button>
 
-      <label for="description">💭 Dream Description</label>
-      <textarea id="description" rows="4" required></textarea>
-
-      <label for="emotions">🧠 Emotions</label>
-      <textarea id="emotions" rows="2"></textarea>
-
-      <label for="symbols">🔍 Symbols / Themes</label>
-      <textarea id="symbols" rows="2"></textarea>
-
-      <label for="meaning">🔮 Possible Meaning / Intuition</label>
-      <textarea id="meaning" rows="3"></textarea>
-
-      <label for="reflection">🌱 Reflection / Integration</label>
-      <textarea id="reflection" rows="3"></textarea>
-
-      <button type="submit">Save Dream ✨</button>
-    </form>
-
-    <hr />
-    <h2>📘 Past Entries</h2>
-    <div id="entries"></div>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="themeSwitch">
+        <span class="slider"></span>
+      </label>
+      <span id="themeLabel">🌙 Dark Mode</span>
+    </div>
   </div>
 
-  <script>
-    const form = document.getElementById('dreamForm');
-    const entriesContainer = document.getElementById('entries');
-
-    async function loadEntries() {
-      const res = await fetch('/api/dreams');
-      const entries = await res.json();
-      entriesContainer.innerHTML = '';
-      entries.forEach(entry => {
-        const div = document.createElement('div');
-        div.className = 'entry';
-        div.innerHTML = `
-          <h3>${entry.title} (${entry.date})</h3>
-          <p><strong>Description:</strong> ${entry.description}</p>
-          <p><strong>Emotions:</strong> ${entry.emotions}</p>
-          <p><strong>Symbols:</strong> ${entry.symbols}</p>
-          <p><strong>Meaning:</strong> ${entry.meaning}</p>
-          <p><strong>Reflection:</strong> ${entry.reflection}</p>
-        `;
-        entriesContainer.appendChild(div);
-      });
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const entry = {
-        date: document.getElementById('date').value,
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
-        emotions: document.getElementById('emotions').value,
-        symbols: document.getElementById('symbols').value,
-        meaning: document.getElementById('meaning').value,
-        reflection: document.getElementById('reflection').value,
-      };
-
-      await fetch('/api/dreams', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(entry),
-      });
-
-      form.reset();
-      loadEntries();
-  });
-
-  loadEntries();
-  </script>
+  <script src="theme.js"></script>
 </body>
 </html>
